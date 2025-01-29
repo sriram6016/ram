@@ -1,0 +1,68 @@
+from collections import Counter
+
+# Data set
+data = [
+    ("sunny", "hot", "high", False, "No"),
+    ("sunny", "hot", "high", True, "No"),
+    ("overcast", "hot", "high", False, "Yes"),
+    ("rain", "mild", "high", False, "Yes"),
+    ("rain", "cool", "normal", False, "Yes"),
+    ("rain", "cool", "normal", True, "No"),
+    ("overcast", "cool", "normal", True, "Yes"),
+    ("sunny", "mild", "high", False, "No"),
+    ("sunny", "cool", "normal", False, "Yes"),
+    ("rain", "mild", "normal", False, "Yes"),
+    ("sunny", "mild", "normal", True, "Yes"),
+    ("overcast", "mild", "high", True, "Yes"),
+    ("overcast", "hot", "normal", False, "Yes"),
+    ("rain", "mild", "high", True, "No")
+]
+
+# Count occurrences
+count_yes = sum(1 for x in data if x[-1] == "Yes")
+count_no = sum(1 for x in data if x[-1] == "No")
+total = len(data)
+
+prob_yes = count_yes / total
+prob_no = count_no / total
+
+# Function to compute conditional probabilities
+def conditional_probability(attribute, value, play_tennis):
+    filtered = [x for x in data if x[-1] == play_tennis]
+    count = sum(1 for x in filtered if x[attribute] == value)
+    return count / len(filtered)
+
+# Compute probabilities for (Sunny, Cool, High, Strong)
+x = ("sunny", "cool", "high", True)
+
+prob_x_given_yes = (
+    conditional_probability(0, x[0], "Yes") *
+    conditional_probability(1, x[1], "Yes") *
+    conditional_probability(2, x[2], "Yes") *
+    conditional_probability(3, x[3], "Yes")
+)
+
+prob_x_given_no = (
+    conditional_probability(0, x[0], "No") *
+    conditional_probability(1, x[1], "No") *
+    conditional_probability(2, x[2], "No") *
+    conditional_probability(3, x[3], "No")
+)
+
+# Compute posterior probability
+prob_yes_given_x = prob_x_given_yes * prob_yes
+prob_no_given_x = prob_x_given_no * prob_no
+
+# Normalize
+prob_sum = prob_yes_given_x + prob_no_given_x
+prob_yes_final = prob_yes_given_x / prob_sum
+prob_no_final = prob_no_given_x / prob_sum
+
+# Output prediction
+print(f"Probability of playing tennis: {prob_yes_final:.4f}")
+print(f"Probability of not playing tennis: {prob_no_final:.4f}")
+
+if prob_yes_final > prob_no_final:
+    print("Prediction: Play Tennis")
+else:
+    print("Prediction: Don't Play Tennis")
