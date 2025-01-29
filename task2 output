@@ -1,0 +1,11 @@
+Output:
+First few rows of the cleaned dataset:
+Year	MAKE	MODEL	VEHICLE CLASS	ENGINE SIZE	CYLINDERS	EMISSION
+2000	0	0	0	1.6	4	216
+2000	0	0	0	1.6	4	205
+2000	0	1	2	3.2	6	265
+2000	0	2	2	3.5	6	301
+2000	0	164	9	1.8	4	230
+Model Performance:
+Mean Absolute Error (MAE): 18.25
+This means that, on average, the predicted CO2 emissions deviate by about 18 units from the actual values. Let me know if you'd like further refinements!
